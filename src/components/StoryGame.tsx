@@ -12,7 +12,8 @@ export const StoryGame = () => {
     steps: 0,
     choicesMade: [],
     endingsReached: [],
-    secretsFound: []
+    secretsFound: [],
+    conceptsLearned: []
   });
 
   const currentStory = selectedTheme ? getStoryByTheme(selectedTheme) : null;
@@ -34,18 +35,34 @@ export const StoryGame = () => {
       steps: 0,
       choicesMade: [],
       endingsReached: [],
-      secretsFound: []
+      secretsFound: [],
+      conceptsLearned: []
     });
   };
 
   const handleChoice = (nextNode: string) => {
     if (!currentNode) return;
     
+    // Track educational concepts learned
+    if (currentNode.educational?.title && !progress.conceptsLearned.includes(currentNode.educational.title)) {
+      setProgress(prev => ({
+        ...prev,
+        conceptsLearned: [...prev.conceptsLearned, currentNode.educational.title]
+      }));
+    }
+    
     setProgress(prev => ({
       ...prev,
       steps: prev.steps + 1,
       choicesMade: [...prev.choicesMade, currentNode.id]
     }));
+    
+    // Handle special theme_select ending
+    if (nextNode === 'theme_select') {
+      setSelectedTheme(null);
+      setCurrentNodeId('start');
+      return;
+    }
     
     setCurrentNodeId(nextNode);
     

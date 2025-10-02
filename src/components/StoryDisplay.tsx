@@ -35,6 +35,16 @@ export const StoryDisplay = ({ node, onChoice, onRestart }: StoryDisplayProps) =
           <p className="text-xl leading-relaxed text-foreground">{node.text}</p>
         </div>
 
+        {node.educational && (
+          <div className="mb-6 p-6 bg-secondary/20 border-2 border-secondary rounded-lg glow-border">
+            <h3 className="text-2xl font-bold text-secondary mb-3">{node.educational.title}</h3>
+            <p className="text-foreground mb-3 leading-relaxed">{node.educational.content}</p>
+            {node.educational.learnMore && (
+              <p className="text-accent italic">💡 {node.educational.learnMore}</p>
+            )}
+          </div>
+        )}
+
         {node.randomEvent && (
           <div className="mb-6 p-4 bg-accent/20 border-2 border-accent rounded-lg animate-pulse-subtle">
             <p className="text-accent font-bold">⚡ {node.randomEvent}</p>
@@ -50,8 +60,8 @@ export const StoryDisplay = ({ node, onChoice, onRestart }: StoryDisplayProps) =
         {node.isEnding ? (
           <div className="space-y-4">
             <div className="text-center mb-6">
-              <h2 className="text-4xl font-bold neon-text mb-2">Story Complete!</h2>
-              <p className="text-muted-foreground">You've reached an ending. What will you do next?</p>
+              <h2 className="text-4xl font-bold neon-text mb-2">Continue Your Journey!</h2>
+              <p className="text-muted-foreground">Choose a new path to explore more</p>
             </div>
             <div className="flex gap-4 justify-center">
               <Button

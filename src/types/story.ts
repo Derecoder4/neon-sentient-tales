@@ -12,6 +12,11 @@ export interface StoryNode {
   isEnding?: boolean;
   randomEvent?: string;
   secret?: string;
+  educational?: {
+    title: string;
+    content: string;
+    learnMore?: string;
+  };
 }
 
 export interface Theme {
@@ -26,4 +31,5 @@ export interface GameProgress {
   choicesMade: string[];
   endingsReached: string[];
   secretsFound: string[];
+  conceptsLearned: string[];
 }

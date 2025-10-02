@@ -8,6 +8,12 @@ import mascotSmirk from '@/assets/mascot-smirk.jpg';
 
 export const themes: Theme[] = [
   {
+    id: 'sentient',
+    name: 'Learn About Sentient',
+    description: 'Educational journey into open-source AGI and the GRID',
+    icon: '🧠'
+  },
+  {
     id: 'cyberpunk',
     name: 'Cyberpunk City',
     description: 'Navigate the neon-lit streets of a sentient AI metropolis',
@@ -588,6 +594,8 @@ export const mysteryStory: Record<string, StoryNode> = {
   }
 };
 
+import { sentientEducationalStory } from './educationalStories';
+
 export const getStoryByTheme = (themeId: string): Record<string, StoryNode> => {
   switch (themeId) {
     case 'cyberpunk':
@@ -596,6 +604,8 @@ export const getStoryByTheme = (themeId: string): Record<string, StoryNode> => {
       return spaceStory;
     case 'mystery':
       return mysteryStory;
+    case 'sentient':
+      return sentientEducationalStory;
     default:
       return cyberpunkStory;
   }
