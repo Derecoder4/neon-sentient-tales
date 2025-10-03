@@ -3,6 +3,7 @@ import { ThemeSelector } from './ThemeSelector';
 import { StoryDisplay } from './StoryDisplay';
 import { ProgressTracker } from './ProgressTracker';
 import { Navbar } from './Navbar';
+import { KnowledgeQuiz } from './KnowledgeQuiz';
 import { themes, getStoryByTheme } from '@/data/stories';
 import { GameProgress, StoryNode } from '@/types/story';
 import { useToast } from '@/hooks/use-toast';
@@ -12,6 +13,7 @@ export const StoryGame = () => {
   const [currentNodeId, setCurrentNodeId] = useState('start');
   const [history, setHistory] = useState<string[]>(['start']);
   const [bookmarks, setBookmarks] = useState<Array<{nodeId: string, theme: string}>>([]);
+  const [showQuiz, setShowQuiz] = useState(false);
   const [progress, setProgress] = useState<GameProgress>({
     steps: 0,
     choicesMade: [],
@@ -150,10 +152,20 @@ export const StoryGame = () => {
     setHistory(['start']);
   };
 
+  const handleGoHome = () => {
+    setSelectedTheme(null);
+    setCurrentNodeId('start');
+    setHistory(['start']);
+  };
+
+  if (showQuiz) {
+    return <KnowledgeQuiz onClose={() => setShowQuiz(false)} />;
+  }
+
   if (!selectedTheme) {
     return (
       <>
-        <Navbar />
+        <Navbar onQuiz={() => setShowQuiz(true)} />
         <ThemeSelector themes={themes} onSelectTheme={handleThemeSelect} />
       </>
     );
@@ -165,7 +177,13 @@ export const StoryGame = () => {
 
   return (
     <>
-      <Navbar onSave={handleSave} onBookmark={handleBookmark} />
+      <Navbar 
+        onSave={handleSave} 
+        onBookmark={handleBookmark} 
+        onHome={handleGoHome}
+        onQuiz={() => setShowQuiz(true)}
+        showHomeButton={true}
+      />
       <div className="min-h-screen py-8 pb-24">
         <ProgressTracker progress={progress} />
         <StoryDisplay
