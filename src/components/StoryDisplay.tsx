@@ -2,14 +2,17 @@ import { StoryNode } from '@/types/story';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useEffect, useState } from 'react';
+import { ArrowLeft } from 'lucide-react';
 
 interface StoryDisplayProps {
   node: StoryNode;
   onChoice: (nextNode: string) => void;
   onRestart: () => void;
+  onGoBack?: () => void;
+  canGoBack?: boolean;
 }
 
-export const StoryDisplay = ({ node, onChoice, onRestart }: StoryDisplayProps) => {
+export const StoryDisplay = ({ node, onChoice, onRestart, onGoBack, canGoBack }: StoryDisplayProps) => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -20,6 +23,17 @@ export const StoryDisplay = ({ node, onChoice, onRestart }: StoryDisplayProps) =
 
   return (
     <div className={`max-w-4xl mx-auto p-6 transition-all duration-500 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+      {canGoBack && onGoBack && (
+        <Button
+          onClick={onGoBack}
+          variant="ghost"
+          className="mb-4 hover:text-primary"
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Go Back
+        </Button>
+      )}
+      
       <Card className="border-2 border-primary/50 bg-card/80 backdrop-blur-sm p-8 story-card">
         {node.image && (
           <div className="mb-6 flex justify-center">
@@ -80,7 +94,7 @@ export const StoryDisplay = ({ node, onChoice, onRestart }: StoryDisplayProps) =
                   key={index}
                   onClick={() => onChoice(choice.nextNode)}
                   variant="outline"
-                  className="w-full choice-button text-lg py-6 border-2 border-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+                  className="w-full choice-button text-lg py-6 border-2 border-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 whitespace-normal h-auto min-h-[3.5rem]"
                 >
                   {choice.text}
                 </Button>
